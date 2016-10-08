@@ -1,6 +1,6 @@
 {
   "name": "azur",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Azure Web App Deployment Automation",
   "main": "index.js",
   "scripts": {
