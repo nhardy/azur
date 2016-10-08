@@ -1,0 +1,60 @@
+{
+  "name": "azur",
+  "version": "0.0.1",
+  "description": "Azure Web App Deployment Automation",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel ./src --source-maps --out-dir ./dist",
+    "clean": "GLOBIGNORE=.gitignore:.npmignore rm -rf ./dist/*",
+    "lint": "eslint ./src",
+    "preversion": "npm run build",
+    "postversion": "git push --follow-tags",
+    "start": "npm run clean && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npm run clean && babel ./src --source-maps --watch --out-dir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhardy/azur.git"
+  },
+  "keywords": [
+    "azur",
+    "azure",
+    "web",
+    "app",
+    "service",
+    "deploy",
+    "deployment",
+    "automated",
+    "automation",
+    "microsoft"
+  ],
+  "author": "Nathan Hardy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nhardy/azur/issues"
+  },
+  "homepage": "https://github.com/nhardy/azur#readme",
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-plugin-transform-async-to-module-method": "^6.16.0",
+    "babel-preset-es2015-node": "^6.1.1",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-es2017": "^6.16.0",
+    "eslint": "^3.7.1",
+    "eslint-config-nhardy": "^0.2.1",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-mocha": "^4.6.0",
+    "eslint-plugin-react": "^6.3.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "debug": "^2.2.0",
+    "del": "^2.2.2",
+    "extract-zip": "^1.5.0",
+    "nodegit": "^0.16.0",
+    "tmp": "0.0.29"
+  }
+}

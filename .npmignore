@@ -1,0 +1,9 @@
+*.log
+.babelrc
+.editorconfig
+.eslintrc
+.git
+.gitignore
+.npm
+node_modules
+npm-debug.log
