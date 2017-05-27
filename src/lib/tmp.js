@@ -1,7 +1,8 @@
 import tmp from 'tmp';
 
 
-export function dir() { // eslint-disable-line import/prefer-default-export
+// eslint-disable-next-line import/prefer-default-export
+export function dir() {
   return new Promise((resolve, reject) => {
     tmp.dir({ unsafeCleanup: true }, (err, path, cleanup) => {
       if (err) {

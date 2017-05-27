@@ -6,6 +6,8 @@ At this point in time, this is very much a work-in-progress and the API may be s
 
 ## Install
 
+Requires Node >= 6.
+
 `npm install azur --save-dev`
 
 ## Usage
