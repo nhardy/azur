@@ -54,7 +54,7 @@ export default class Application {
 
       // eslint-disable-next-line no-bitwise
       const isBare = repo.isBare() & git.Repository.INIT_FLAG.BARE;
-      const index = await isBare ? repo.refreshIndex() : repo.index();
+      const index = await (isBare ? repo.refreshIndex() : repo.index());
       if (!isBare) await index.read(1);
       await index.addAll();
       paths.forEach((p) => {
