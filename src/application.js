@@ -28,6 +28,7 @@ export default class Application {
     const { path, cleanup } = await tmp.dir();
     log('Created new tmp dir:', path);
 
+    let error = null;
     try {
       log('Cloning Azure Git Repository...');
       const repo = await git.Clone(this.gitUrl, path, {
@@ -50,8 +51,11 @@ export default class Application {
       log('Tracking files in Git...');
       const statuses = await repo.getStatusExt();
       const paths = statuses.map(status => status.path());
-      const index = await repo.index();
-      await index.read(1);
+
+      // eslint-disable-next-line no-bitwise
+      const isBare = repo.isBare() & git.Repository.INIT_FLAG.BARE;
+      const index = await isBare ? repo.refreshIndex() : repo.index();
+      if (!isBare) await index.read(1);
       await index.addAll();
       paths.forEach((p) => {
         // eslint-disable-next-line no-bitwise
@@ -66,10 +70,13 @@ export default class Application {
 
       log('Writing commit...');
       const oid = await index.writeTree();
-      const head = await git.Reference.nameToId(repo, 'HEAD');
-      const parent = await repo.getCommit(head);
+      let parent = null;
+      if (!isBare) {
+        const head = await git.Reference.nameToId(repo, 'HEAD');
+        parent = await repo.getCommit(head);
+      }
       const signature = git.Signature.create(this.gitName, this.gitEmail, Date.now(), 0);
-      await repo.createCommit('HEAD', signature, signature, 'Deployment', oid, [parent]);
+      await repo.createCommit('HEAD', signature, signature, 'Deployment', oid, isBare ? [] : [parent]);
       log('Wrote commit successfully');
 
       const remote = await repo.getRemote('origin');
@@ -77,8 +84,12 @@ export default class Application {
       log('Pushing changes to Azure App Service... (this may take a while)');
       await remote.push(['refs/heads/master:refs/heads/master']);
       log('Finished deployment');
+    } catch (e) {
+      error = e;
     } finally {
       cleanup();
     }
+
+    if (error) throw error;
   }
 }
