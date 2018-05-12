@@ -1,6 +1,7 @@
 *.log
 .babelrc
 .editorconfig
+.eslintignore
 .eslintrc
 .git
 .gitignore
