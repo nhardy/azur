@@ -1,10 +1,8 @@
 import debug from 'debug';
 import del from 'del';
 import git from 'nodegit';
-
 import * as tmp from './lib/tmp';
 import extract from './lib/extract';
-
 
 const log = debug('azur');
 log.log = console.log.bind(console); // eslint-disable-line no-console
